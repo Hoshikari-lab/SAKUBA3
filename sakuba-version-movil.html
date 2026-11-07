@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#005691"><title>SAKUBA — Novelas en español</title>
+<style>
+:root{--blue:#005691;--blue2:#087eb5;--ink:#20252b;--muted:#66727e;--bg:#f4f7fa;--card:#fff;--line:#dfe5ea;--pale:#eaf5fb;--red:#b42318;--green:#168447;--gold:#a66b00;--radius:14px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}a{color:var(--blue)}.top{background:#fff;border-bottom:1px solid var(--line);padding:14px max(18px,calc((100% - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.brand{font-size:28px;font-weight:900;letter-spacing:.5px;color:var(--blue);text-decoration:none}.sub{display:block;font-size:12px;font-weight:500;color:var(--muted)}.account,.nav,.actions,.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.account{justify-content:flex-end}.nav{background:var(--blue);padding:10px max(18px,calc((100% - 1180px)/2))}.nav button{background:transparent;border:0;border-radius:8px;padding:9px 12px;color:#fff}.nav button:hover,.nav button.active{background:#ffffff24}.search{margin-left:auto;display:flex;gap:6px;min-width:230px}.search input{width:100%;min-width:0}.wrap{max-width:1180px;margin:auto;padding:24px 16px 55px}.hero{padding:30px;border-radius:17px;color:#fff;background:linear-gradient(125deg,#064e7b,#0e7490);margin-bottom:22px}.hero h1{font-size:clamp(25px,4vw,36px);margin:0 0 8px}.hero p{margin:0;max-width:760px}.section-title{font-weight:850;font-size:19px;border-bottom:2px solid var(--blue);padding-bottom:8px;margin:23px 0 14px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px;box-shadow:0 4px 15px #002b4d08}.card h3{margin:0 0 5px;color:var(--blue);overflow-wrap:anywhere}.meta,small{font-size:12px;color:var(--muted)}.synopsis{white-space:pre-wrap;color:#4d5964;font-size:14px}.btn{background:white;border:1px solid var(--line);border-radius:9px;padding:8px 12px;color:var(--blue);font-weight:700}.btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn.danger{color:var(--red)}.btn.active{background:var(--pale);border-color:var(--blue)}.field{display:flex;flex-direction:column;gap:5px;margin:11px 0}.field label{font-size:13px;font-weight:750}.field input,.field textarea,.field select,.search input{border:1px solid #cbd5df;border-radius:9px;background:#fff;padding:10px 11px;color:var(--ink)}textarea{resize:vertical;min-height:115px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 13px}.full{grid-column:1/-1}.hidden{display:none!important}.notice{padding:11px 13px;background:var(--pale);border-radius:9px;margin:12px 0;color:#164e6b}.notice.error{background:#fff0ef;color:var(--red)}.notice.success{background:#eaf8ef;color:var(--green)}.empty{padding:27px;text-align:center;border:1px dashed #cbd5df;border-radius:12px;color:var(--muted);background:#fff}.pill{display:inline-block;background:var(--pale);color:var(--blue);border-radius:99px;padding:3px 8px;font-size:11px;margin:2px}.chapter-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.reader{max-width:850px;margin:16px auto;background:#fff;border:1px solid var(--line);border-radius:13px;padding:clamp(18px,5vw,52px);font-size:18px;line-height:1.9}.reader h1{text-align:center;line-height:1.3}.reader-body{white-space:pre-wrap;overflow-wrap:anywhere}.stats{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:8px 0}.rank{font-size:12px;font-weight:800;color:#8a5a00}.separator{border:0;border-top:1px solid var(--line);margin:18px 0}footer{text-align:center;background:#fff;border-top:1px solid var(--line);padding:24px;color:var(--muted);font-size:12px}
+
+/* Diseño SAKUBA: sobrio, ordenado y coherente con la interfaz original */
+html{scroll-behavior:smooth}
+body{line-height:1.55;background:var(--bg);color:var(--ink)}
+.top{min-height:76px;padding:14px max(20px,calc((100% - 1180px)/2));box-shadow:0 1px 0 rgba(0,45,80,.02)}
+.brand{font-size:29px;letter-spacing:.45px;color:var(--blue);line-height:1.15}
+.sub{margin-top:5px;font-size:12px;letter-spacing:0;color:var(--muted)}
+.account{gap:7px}
+.nav{position:sticky;top:0;z-index:20;background:var(--blue);padding:9px max(20px,calc((100% - 1180px)/2));gap:5px;box-shadow:0 3px 12px #002b4d14}
+.nav button{font-size:13px;font-weight:650;padding:9px 11px;white-space:nowrap}
+.nav button:hover,.nav button.active{background:#ffffff20}
+.search{min-width:260px;gap:7px}
+.search input{min-width:0;border:1px solid #d5e0e8;border-radius:9px;padding:9px 11px;background:#fff}
+.wrap{padding:26px 18px 58px}
+.hero{background:linear-gradient(120deg,#004a7c,#087eb5);border-radius:15px;padding:clamp(23px,4vw,34px);margin-bottom:22px;box-shadow:0 7px 20px #004a7c12}
+.hero h1{font-weight:800;letter-spacing:-.4px}
+.section-title{font-size:17px;font-weight:800;border-bottom:1px solid var(--line);padding:0 0 10px;margin:25px 0 15px;color:var(--ink)}
+.card,.panel{border:1px solid var(--line);border-radius:var(--radius);padding:19px;background:#fff;box-shadow:0 3px 12px rgba(0,43,77,.045)}
+.card{transition:border-color .16s ease,box-shadow .16s ease}
+.card:hover{border-color:#c5dbe9;box-shadow:0 6px 18px rgba(0,43,77,.07)}
+.card h3{font-size:17px;line-height:1.4;color:var(--blue);margin:5px 0 7px}
+.meta,small{font-size:12px;color:var(--muted)}
+.synopsis{line-height:1.7;color:#4d5964}
+.btn{border:1px solid #d4dfe7;border-radius:9px;padding:8px 12px;background:#fff;color:var(--blue);font-size:13px;font-weight:700;transition:background .15s,border-color .15s,transform .15s}
+.btn:hover{background:#f3f8fb;border-color:#a9c9dd}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:#004775;border-color:#004775}
+.btn.danger{color:var(--red)}
+.btn.active{background:var(--pale);border-color:#9fc8df;color:var(--blue)}
+.field{gap:6px;margin:14px 0}
+.field label{font-size:13px;color:#344451;font-weight:750}
+.field input,.field textarea,.field select,.search input{border:1px solid #ccd7e0;border-radius:9px;padding:10px 12px;outline:none;transition:border-color .15s,box-shadow .15s}
+.field input:focus,.field textarea:focus,.field select:focus,.search input:focus{border-color:#5ba2ca;box-shadow:0 0 0 3px #087eb51c}
+textarea{line-height:1.65}
+.form-grid{gap:0 18px}
+.pill{background:#edf5fa;color:#275d7c;border:1px solid #deedf5;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:650;margin:3px 3px 0 0}
+.stats{gap:8px 15px;margin:10px 0;color:#687783}
+.rank{display:inline-block;background:#fff7e5;border:1px solid #f1dfb6;border-radius:6px;padding:3px 7px;color:#8a5a00;font-size:10px;letter-spacing:.4px}
+.empty{padding:30px 20px;line-height:1.7;border-color:#d2dfe8;background:#fff}
+.notice{border:1px solid #d9ebf5;background:#f0f8fc;color:#285b75;border-radius:9px}
+.notice.error{border-color:#f3d3d0;background:#fff4f3;color:var(--red)}
+.notice.success{border-color:#cde9d6;background:#f0faf3;color:var(--green)}
+.chapter-row{padding:13px 0;gap:14px}
+.chapter-row:last-child{border-bottom:0}
+.reader{border-radius:14px;box-shadow:0 4px 18px #002b4d08;line-height:1.95;color:#293540}
+.reader h1{font-size:clamp(24px,4vw,32px);color:var(--blue);margin:0 0 18px}
+#profile-view>.panel{max-width:760px;margin:0 auto;padding:clamp(18px,3vw,30px)}
+#profile-view h2,#editor-view h2,#auth-view h2,#reset-view h2{margin:0 0 18px;font-size:23px;letter-spacing:-.25px}
+#profile-form{padding-bottom:6px}
+#editor-view>.panel{padding:clamp(18px,3vw,28px)}
+#chapter-editor{margin-top:24px;padding-top:4px}
+#author-chapters{background:#fbfcfd;border:1px solid var(--line);border-radius:10px;padding:0 14px;margin:10px 0 18px}
+#my-novels{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px}
+#my-novels .card{display:flex;flex-direction:column;align-items:flex-start}
+#my-novels .card .actions{margin-top:auto;padding-top:12px}
+
+/* Catálogo visual y sinopsis compactas */
+#catalog{grid-template-columns:repeat(auto-fill,minmax(min(100%,245px),1fr));gap:18px}
+#catalog .card{position:relative;display:flex;flex-direction:column;align-items:stretch;min-width:0;padding:0;overflow:hidden;border-radius:16px;box-shadow:0 5px 20px rgba(0,43,77,.07);transition:transform .18s ease,box-shadow .18s ease}
+#catalog .card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(0,43,77,.12)}
+#catalog .catalog-art{height:8px;background:linear-gradient(110deg,#064e7b,#1397be)}
+#catalog .catalog-content{display:flex;flex-direction:column;align-items:stretch;padding:16px;flex:1}
+#catalog .rank{align-self:flex-start;margin-bottom:5px}
+#catalog .card h3{font-size:18px;margin:2px 0 7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#catalog .synopsis{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;line-height:1.6;min-height:0;margin:9px 0 12px}
+#catalog .stats{gap:6px 10px;font-size:11px}
+#catalog .catalog-genres{min-height:24px;margin-bottom:12px}
+#catalog .catalog-actions{margin-top:auto}
+#catalog .catalog-actions .btn{width:100%;padding:10px}
+#detail-view>.panel{padding:clamp(18px,4vw,34px)}
+#detail-synopsis{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;margin:8px 0 22px}
+#detail-view .synopsis-heading{font-size:17px;margin:24px 0 8px;color:var(--ink)}
+.chapter-row .chapter-name{min-width:0;overflow-wrap:anywhere}
+.chapter-row .chapter-name b{display:block}
+#reader-view .share-link{margin:12px 0;overflow-wrap:anywhere}
+@media(max-width:600px){#catalog{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#catalog .catalog-content{padding:12px}#catalog .card h3{font-size:15px}#catalog .synopsis{font-size:12px;-webkit-line-clamp:3}#catalog .stats{display:flex;flex-direction:column;gap:4px}#catalog .btn{font-size:12px;padding:9px 7px}.chapter-row{flex-wrap:wrap}.chapter-row .actions{width:100%}}
+/* Estados de obra: se distinguen sin alterar el resto de la paleta */
+.status-badge{display:inline-flex;align-items:center;white-space:nowrap;border-radius:6px;padding:3px 8px;font-size:11px;line-height:1.5;font-weight:750;border:1px solid transparent;margin:2px 3px}
+.status-emision{background:#e9f7ef;color:#167341;border-color:#c9e9d5}
+.status-finalizada{background:#fbecee;color:#9d2f3e;border-color:#f0cfd4}
+.status-pausa{background:#fff4df;color:#946000;border-color:#f1dfb6}
+.publication-badge{display:inline-flex;align-items:center;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:750;margin:2px 3px}
+.publication-published{background:#e9f7ef;color:#167341}
+.publication-draft{background:#eef2f5;color:#566574}
+footer{border-top:1px solid var(--line);margin-top:28px}
+@media(max-width:760px){.nav{position:static}.search{width:100%;margin:5px 0 0;min-width:0}.nav button{padding:8px 9px}.wrap{padding:18px 13px 42px}}
+@media(max-width:650px){.top{align-items:flex-start}.account{justify-content:flex-start}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.hero{padding:22px}.chapter-row{align-items:flex-start}.card,.panel{padding:16px}}
+
+/* Ficha de novela: panel editorial sin portadas ni emojis */
+#detail-view>.panel{position:relative;overflow:hidden;border:1px solid #dce6ee;border-radius:22px;padding:0;background:linear-gradient(145deg,#fff 0%,#f8fbfd 100%);box-shadow:0 18px 48px rgba(0,43,77,.09)}
+#detail-view>.panel:before{content:"";display:block;height:7px;background:linear-gradient(90deg,#004a7c,#087eb5 58%,#62c5d5)}
+#detail-view>.panel>#detail-title{font-size:clamp(27px,4vw,40px);line-height:1.14;letter-spacing:-1px;color:#102d43;margin:0;padding:30px 30px 10px;overflow-wrap:anywhere}
+#detail-meta{padding:0 30px 18px;color:#657786;font-size:14px}
+#detail-meta .detail-author{color:#075985;font-weight:750}
+#detail-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 30px 20px}
+.detail-stat{border:1px solid #e0e9ef;border-radius:13px;padding:13px 15px;background:rgba(237,245,250,.72);min-width:0}
+.detail-stat strong{display:block;font-size:21px;line-height:1.25;color:#123d59;font-weight:850}
+.detail-stat span{display:block;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#70818e;font-weight:750;margin-top:3px}
+#detail-genres{display:flex;flex-wrap:wrap;gap:6px;padding:0 30px 24px}
+#detail-genres .pill{padding:5px 11px;border-radius:99px;font-size:12px;background:#eaf4f9;border-color:#d9eaf3}
+#detail-synopsis{margin:0 30px 25px;padding:19px 21px;border-left:3px solid #1682ad;border-radius:0 12px 12px 0;background:#f3f8fb;color:#405564;font-size:15px;line-height:1.85}
+#detail-view .synopsis-heading{margin:0 30px 10px;font-size:13px;letter-spacing:1.3px;text-transform:uppercase;color:#6c7d89}
+#detail-actions{padding:0 30px 24px;gap:9px}
+#detail-actions .btn{padding:10px 14px}
+#detail-view .section-title{margin:0;padding:19px 30px 13px;border-top:1px solid #e5edf2;border-bottom:0;font-size:18px;color:#183c53}
+#detail-chapters{padding:0 30px 26px}
+#detail-chapters .chapter-row{padding:15px 16px;margin:8px 0;border:1px solid #e2eaf0;border-radius:13px;background:#fff;transition:border-color .15s,transform .15s}
+#detail-chapters .chapter-row:hover{border-color:#a9cfe2;transform:translateY(-1px)}
+#detail-chapters .chapter-name{font-weight:750;color:#183c53;line-height:1.45}
+.chapter-date{display:block;color:#7b8a96;font-size:12px;margin-top:4px}
+#detail-chapters .actions{justify-content:flex-end}
+#vote-area,#comments-area,#comment-form-wrap{margin:0 30px 22px}
+#vote-area .section-title{padding:18px 0 10px}
+#comments-area .card{border-radius:12px}
+@media(max-width:650px){#detail-view>.panel>#detail-title{padding:23px 19px 9px;font-size:27px}#detail-meta{padding:0 19px 15px}#detail-overview{padding:0 19px 17px;gap:7px} .detail-stat{padding:11px 9px}.detail-stat strong{font-size:18px}.detail-stat span{font-size:9px;letter-spacing:.4px}#detail-genres{padding:0 19px 19px}#detail-synopsis{margin:0 19px 22px;padding:15px}#detail-view .synopsis-heading{margin:0 19px 9px}#detail-actions{padding:0 19px 20px}#detail-view .section-title{padding:17px 19px 11px}#detail-chapters{padding:0 19px 22px}#detail-chapters .chapter-row{align-items:flex-start}#detail-chapters .actions{justify-content:flex-start}#vote-area,#comments-area,#comment-form-wrap{margin-left:19px;margin-right:19px}}
+
+/* SAKUBA Studio: capa visual creativa y adaptable */
+:root{--blue:#174a72;--blue2:#247ca2;--ink:#172a3a;--muted:#647789;--bg:#f3f6fa;--card:#fff;--line:#dce5ed;--pale:#eaf3f9;--radius:18px}
+body{background:radial-gradient(ellipse at 8% 0%,#e8f2f8 0,transparent 32%),var(--bg);color:var(--ink)}
+.top{background:rgba(255,255,255,.95);backdrop-filter:blur(14px);box-shadow:0 8px 26px rgba(23,54,80,.04)}
+.brand{color:#174a72;letter-spacing:1.3px}.brand:before{content:"";display:inline-block;width:8px;height:28px;margin-right:10px;vertical-align:-5px;border-radius:6px;background:linear-gradient(180deg,#c4a36a,#247ca2)}
+.nav{background:linear-gradient(105deg,#173b59,#205c7b);box-shadow:0 9px 24px rgba(18,52,77,.15)}.nav button{border-radius:10px;transition:background .2s,transform .2s}.nav button:hover{transform:translateY(-1px)}
+.wrap{max-width:1240px;padding-top:30px}.hero{position:relative;isolation:isolate;overflow:hidden;border:1px solid #ffffff29;background:linear-gradient(118deg,#153e5e,#1d6484 58%,#398ba3);box-shadow:0 18px 42px #1846642b;border-radius:23px;padding:clamp(28px,5vw,48px)}.hero:after{content:"";position:absolute;z-index:-1;width:290px;height:290px;border:1px solid #ffffff2b;border-radius:50%;right:-75px;top:-130px;box-shadow:0 0 0 28px #ffffff09,0 0 0 60px #ffffff07}.hero h1{max-width:760px;font-size:clamp(30px,5vw,44px);line-height:1.12;letter-spacing:-1.2px}.hero p{max-width:680px;color:#e4f0f6;font-size:16px}
+.card,.panel{border-radius:18px;box-shadow:0 5px 20px #1435500b;border-color:#dfe7ee}.section-title{font-size:17px;border:0;padding-bottom:10px;position:relative}.section-title:after{content:"";position:absolute;bottom:0;left:0;width:52px;height:3px;border-radius:4px;background:linear-gradient(90deg,#247ca2,#c4a36a)}.btn{border-radius:10px}.btn.primary{background:linear-gradient(120deg,#174a72,#247ca2);border-color:#174a72;box-shadow:0 5px 12px #174a721f}.btn.primary:hover{background:linear-gradient(120deg,#123c5d,#1e698c);transform:translateY(-1px)}
+#profile-view>.profile-shell,#author-view>.author-shell{padding:0;overflow:hidden;border:1px solid #dce6ee;box-shadow:0 14px 36px #18375214}.profile-banner,.author-banner{position:relative;overflow:hidden;padding:clamp(24px,5vw,42px);color:white;background:linear-gradient(120deg,#163b59,#1d6484 65%,#3b879b)}.profile-banner:after,.author-banner:after{content:"";position:absolute;width:240px;height:240px;right:-65px;top:-120px;border:1px solid #ffffff3d;border-radius:50%;box-shadow:0 0 0 24px #ffffff09,0 0 0 50px #ffffff08}.profile-head,.author-head{position:relative;z-index:1;display:flex;align-items:center;gap:18px;min-width:0}.profile-mark,.author-mark{display:grid;place-items:center;flex:0 0 76px;width:76px;height:76px;border-radius:24px;background:linear-gradient(145deg,#f5e7c8,#d6b879);color:#173b59;font-size:27px;font-weight:900;letter-spacing:-1px;border:1px solid #ffffff8c;box-shadow:0 8px 22px #092b4438}.profile-kicker,.author-kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#d8eaf2;margin:0 0 5px}.profile-banner h2,.author-banner h2{color:white;margin:0;font-size:clamp(25px,4vw,35px);line-height:1.15;overflow-wrap:anywhere}.profile-banner p,.author-banner p{color:#e1edf3;margin:8px 0 0;max-width:680px}.profile-body,.author-body{padding:clamp(17px,3vw,30px)}
+.profile-stats,.author-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 26px}.profile-stat,.author-stat{border:1px solid #e1e9ef;border-radius:15px;padding:15px;background:linear-gradient(145deg,#fff,#f7fafc);min-width:0}.profile-stat strong,.author-stat strong{display:block;font-size:25px;line-height:1.2;letter-spacing:-.7px;color:#174a72}.profile-stat span,.author-stat span{font-size:12px;color:#687b8b}.profile-columns{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:18px;align-items:start}.profile-card{border:1px solid #e0e8ef;border-radius:16px;padding:18px;background:#fff;min-width:0}.profile-card h3{margin:0 0 14px;font-size:16px}.profile-tools{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0 22px}.profile-email-box{padding:12px 14px;border-radius:12px;background:#f3f7fa;border:1px solid #e1e9ef;overflow-wrap:anywhere}.author-intro{font-size:15px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;color:#415666;margin:0 0 22px}.author-works-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:26px 0 12px}.author-works-heading .section-title{margin:0}#author-novels .card{height:100%;display:flex;flex-direction:column;background:linear-gradient(150deg,#fff,#f9fbfd)}#author-novels .card .synopsis{flex:1}
+#legal-view>.legal-shell{padding:0;overflow:hidden}.legal-hero{padding:clamp(26px,5vw,42px);color:white;background:linear-gradient(120deg,#173b59,#24728f)}.legal-hero .legal-eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#d5e9f2}.legal-hero h2{font-size:clamp(26px,4vw,36px);line-height:1.15;margin:8px 0}.legal-hero p{max-width:760px;color:#e2eef4;margin:0}.legal-content{padding:clamp(18px,4vw,36px)}.legal-contact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 28px}.legal-contact-card{border:1px solid #dfe8ef;border-radius:14px;padding:16px;background:#f8fbfd;min-width:0}.legal-contact-card strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:#6b7f8e;margin-bottom:5px}.legal-contact-card a{font-weight:750;overflow-wrap:anywhere}.legal-section{padding:21px 0;border-bottom:1px solid #e5ebf0}.legal-section:last-of-type{border-bottom:0}.legal-section h3{margin:0 0 10px;font-size:19px;color:#1b496a}.legal-section p,.legal-section li{color:#435766;line-height:1.8}.legal-note{border:1px solid #e7d9b7;background:#fffaf0;color:#755c2e;padding:15px 17px;border-radius:13px;line-height:1.7;margin-top:20px}
+footer{background:#15364f;color:#c8d8e3;border-top:0;padding:28px 18px;margin-top:36px}footer .footer-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}footer strong{color:#fff;letter-spacing:1px}footer a{color:#e3c98f;text-decoration:none}footer a:hover{text-decoration:underline}
+@media(max-width:760px){.profile-columns{grid-template-columns:1fr}.profile-stats,.author-stats{gap:8px}.profile-stat,.author-stat{padding:12px}.profile-stat strong,.author-stat strong{font-size:22px}}@media(max-width:520px){.profile-head,.author-head{align-items:flex-start;gap:13px}.profile-mark,.author-mark{flex-basis:58px;width:58px;height:58px;border-radius:18px;font-size:21px}.profile-banner,.author-banner{padding:23px 18px}.profile-body,.author-body{padding:16px}.profile-stat span,.author-stat span{font-size:10px}.legal-contact{grid-template-columns:1fr}.hero:after{right:-170px}}
+
+
+/* =========================================================
+   SAKUBA MOBILE — capa exclusiva para teléfonos y pantallas
+   pequeñas. No modifica la lógica ni los datos de Supabase.
+   ========================================================= */
+@media (max-width: 760px) {
+  html, body { width:100%; max-width:100%; overflow-x:hidden; }
+  body { font-size:15px; -webkit-text-size-adjust:100%; }
+  .top {
+    display:flex; flex-direction:column; align-items:stretch;
+    gap:12px; padding:14px 15px; min-height:0;
+  }
+  .brand { font-size:25px; }
+  .sub { font-size:11px; line-height:1.35; }
+  .account {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    justify-content:stretch; gap:8px; width:100%;
+  }
+  .account #session-label { grid-column:1/-1; overflow-wrap:anywhere; }
+  .account .btn { width:100%; min-height:40px; padding:9px 8px; }
+  .nav {
+    position:relative; top:auto; z-index:5;
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px; padding:10px 12px;
+  }
+  .nav > button {
+    min-width:0; width:100%; min-height:42px; padding:9px 7px;
+    white-space:normal; line-height:1.25; font-size:12px;
+    overflow-wrap:anywhere;
+  }
+  .search {
+    grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1fr) auto;
+    gap:7px; width:100%; min-width:0; margin:2px 0 0;
+  }
+  .search input { min-width:0; width:100%; }
+  .search .btn { min-width:76px; }
+  .wrap { width:100%; max-width:100%; padding:16px 12px 34px; }
+  .hero { padding:22px 18px; margin-bottom:17px; border-radius:17px; }
+  .hero h1 { font-size:clamp(25px,7vw,33px); line-height:1.16; }
+  .hero p { font-size:14px; line-height:1.65; }
+  .row { gap:7px; }
+  #home-view > .row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
+  #home-view > .row .btn { min-width:0; padding:9px 5px; font-size:11px; }
+  .grid, #catalog, #my-novels, #author-novels {
+    grid-template-columns:minmax(0,1fr); gap:12px;
+  }
+  #catalog .card { width:100%; min-width:0; }
+  #catalog .catalog-content { padding:15px; }
+  #catalog .card h3 { font-size:17px; }
+  #catalog .synopsis { font-size:13px; line-height:1.55; }
+  #catalog .stats { display:flex; flex-direction:row; flex-wrap:wrap; gap:6px 12px; }
+  #catalog .catalog-actions .btn { min-height:42px; font-size:13px; }
+  .card, .panel { min-width:0; padding:15px; border-radius:15px; }
+  .form-grid { grid-template-columns:minmax(0,1fr); gap:0; }
+  .form-grid .full { grid-column:auto; }
+  .field { min-width:0; margin:12px 0; }
+  .field input, .field textarea, .field select,
+  .search input, input, select, textarea { max-width:100%; min-width:0; }
+  .field input, .field textarea, .field select { width:100%; font-size:16px; }
+  textarea { min-height:120px; }
+  .btn { min-height:40px; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+  .actions { display:flex; flex-wrap:wrap; gap:8px; min-width:0; }
+  .actions > .btn { flex:1 1 auto; }
+  .section-title { margin:21px 0 12px; font-size:16px; }
+  .notice, .empty { overflow-wrap:anywhere; }
+  .chapter-row {
+    display:flex; flex-direction:column; align-items:stretch;
+    gap:10px; padding:13px 0;
+  }
+  .chapter-row > div:first-child, .chapter-row .chapter-name {
+    min-width:0; width:100%; overflow-wrap:anywhere;
+  }
+  .chapter-row .actions {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%; gap:7px;
+  }
+  .chapter-row .actions .btn { width:100%; min-width:0; }
+  #author-chapters { padding:0 11px; }
+  #detail-view > .btn { width:100%; margin-bottom:2px; }
+  /* La ficha de obra en móvil usa el fondo de la página:
+     sin tarjeta opaca, sin franja decorativa y sin sombras. */
+  #detail-view > .panel {
+    margin-top:10px !important; padding:0 !important;
+    background:transparent !important; border:0 !important;
+    border-radius:0 !important; box-shadow:none !important;
+    overflow:visible;
+  }
+  #detail-view > .panel:before { display:none !important; }
+  #detail-view > .panel > #detail-title {
+    padding:7px 2px 10px; margin:0; font-size:27px;
+    line-height:1.2; letter-spacing:-.5px; overflow-wrap:anywhere;
+  }
+  #detail-meta { padding:0 2px 15px; line-height:1.6; }
+  #detail-overview {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px; padding:0 0 16px;
+  }
+  .detail-stat {
+    min-width:0; padding:11px 7px; border-radius:12px;
+    background:rgba(234,243,249,.55); text-align:center;
+  }
+  .detail-stat strong { font-size:19px; overflow-wrap:anywhere; }
+  .detail-stat span { font-size:9px; line-height:1.35; letter-spacing:.3px; }
+  #detail-genres { display:flex; flex-wrap:wrap; gap:6px; padding:0 0 17px; }
+  #detail-genres .pill { margin:0; }
+  #detail-view .synopsis-heading {
+    margin:0 0 8px; font-size:12px; letter-spacing:1px;
+  }
+  #detail-synopsis {
+    margin:0 0 18px; padding:0 0 16px;
+    background:transparent; border:0; border-bottom:1px solid var(--line);
+    border-radius:0; font-size:14px; line-height:1.75;
+    overflow-wrap:anywhere;
+  }
+  #detail-actions {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px; padding:0 0 17px;
+  }
+  #detail-actions .btn { width:100%; min-width:0; padding:10px 7px; }
+  #detail-view .section-title {
+    margin:15px 0 10px; padding:14px 0 9px;
+    font-size:16px; border-top:1px solid var(--line);
+  }
+  #detail-chapters { padding:0 0 14px; }
+  #detail-chapters .chapter-row {
+    margin:8px 0; padding:12px;
+    border:1px solid var(--line); border-radius:12px;
+    background:rgba(255,255,255,.48);
+  }
+  #detail-chapters .actions { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  #vote-area, #comments-area, #comment-form-wrap {
+    margin:0 0 18px; min-width:0;
+  }
+  #vote-area .actions { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); }
+  #vote-area .actions .btn { min-width:0; padding:8px 2px; }
+  #comments-area .card { padding:13px; }
+  #reader-view > .actions { align-items:stretch; gap:8px; }
+  #reader-view > .actions > div { display:flex; flex-wrap:wrap; gap:6px; }
+  .reader {
+    width:100%; max-width:100%; margin:12px 0;
+    padding:20px 16px; border-radius:13px;
+    font-size:17px; line-height:1.85;
+  }
+  .reader h1 { font-size:24px; overflow-wrap:anywhere; }
+  #reader-body { overflow-wrap:anywhere; }
+  #prev-btn, #next-btn { min-width:0; }
+  .profile-stats, .author-stats {
+    grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px;
+  }
+  .profile-stat, .author-stat { min-width:0; padding:10px 7px; }
+  .profile-stat strong, .author-stat strong { font-size:20px; overflow-wrap:anywhere; }
+  .profile-stat span, .author-stat span { font-size:10px; line-height:1.35; }
+  .profile-columns { grid-template-columns:minmax(0,1fr); gap:12px; }
+  .profile-card { min-width:0; padding:14px; }
+  .profile-tools { display:grid; grid-template-columns:1fr; }
+  .profile-tools .btn { width:100%; }
+  .profile-head, .author-head { min-width:0; }
+  .profile-banner, .author-banner { padding:22px 16px; }
+  .profile-body, .author-body { padding:14px; }
+  .legal-contact { grid-template-columns:minmax(0,1fr); }
+  .legal-content { padding:16px; }
+  footer { padding:22px 15px; }
+  footer .footer-inner { align-items:flex-start; flex-direction:column; }
+}
+@media (max-width:380px) {
+  .wrap { padding-left:10px; padding-right:10px; }
+  .account { grid-template-columns:minmax(0,1fr); }
+  .account #session-label { grid-column:auto; }
+  #detail-overview { gap:5px; }
+  .detail-stat { padding:9px 4px; }
+  .detail-stat strong { font-size:17px; }
+  #detail-actions { grid-template-columns:minmax(0,1fr); }
+  #vote-area .actions { grid-template-columns:repeat(5,minmax(0,1fr)); }
+}
+
+</style></head>
+<body>
+<header class="top">
+<a href="#" class="brand" onclick="home();return false">SAKUBA<span class="sub">Autopublicación y lectura de novelas ligeras en español</span></a>
+<div class="account"><span id="session-label" class="meta">Modo sin conexión</span><button id="login-btn" class="btn" onclick="showAuth('login')">Iniciar sesión</button><button id="signup-btn" class="btn primary" onclick="showAuth('signup')">Crear cuenta</button><button id="profile-btn" class="btn hidden" onclick="showProfile()">Mi perfil</button><button id="logout-btn" class="btn hidden" onclick="logout()">Salir</button></div>
+</header>
+<nav class="nav">
+<button onclick="home()">Inicio / ranking</button><button onclick="showMyNovels()">Mis obras</button><button onclick="showNovelEditor()">Publicar novela</button><button onclick="showTerms()">Términos y privacidad</button>
+<div class="search"><input id="search" placeholder="Buscar título, sinopsis o autor" onkeydown="if(event.key==='Enter')searchCatalog()"><button class="btn" onclick="searchCatalog()">Buscar</button></div>
+</nav>
+<main class="wrap">
+<section id="home-view">
+<div class="hero"><h1>Tu historia merece ser leída.</h1><p>Publica novelas por capítulos, descubre historias en español y vota por tus favoritas. Las obras se escriben y leen como texto.</p></div>
+<div class="row"><button class="btn active" id="rank-popular" onclick="setRanking('popular')">Más votadas</button><button class="btn" id="rank-recent" onclick="setRanking('recent')">Más recientes</button><button class="btn" id="rank-favs" onclick="setRanking('favorites')">Más favoritas</button></div>
+<div id="catalog" class="grid" style="margin-top:14px"><div class="empty">Configura Supabase para cargar el catálogo.</div></div>
+</section>
+<section id="auth-view" class="hidden"><div class="panel" style="max-width:560px;margin:auto"><h2 id="auth-title">Crear cuenta</h2><div id="auth-msg"></div><form id="auth-form"><div class="field"><label>Correo electrónico</label><input id="auth-email" type="email" required autocomplete="email"></div><div class="field"><label>Contraseña</label><input id="auth-password" type="password" minlength="8" required autocomplete="current-password"></div><div id="auth-name-wrap" class="field"><label>Nombre público o seudónimo</label><input id="auth-name" maxlength="60"></div><button class="btn primary" id="auth-submit">Crear cuenta</button> <button type="button" class="btn" id="auth-switch" onclick="switchAuth()">Ya tengo cuenta</button><button type="button" class="btn" onclick="showReset()">Olvidé mi contraseña</button></form></div></section>
+<section id="reset-view" class="hidden"><div class="panel" style="max-width:560px;margin:auto"><h2>Recuperar contraseña</h2><p>Te enviaremos un enlace de recuperación al correo de tu cuenta.</p><div id="reset-msg"></div><form id="reset-form"><div class="field"><label>Correo electrónico</label><input id="reset-email" type="email" required></div><button class="btn primary">Enviar enlace</button></form><hr class="separator"><h3>Establecer nueva contraseña</h3><form id="new-password-form"><div class="field"><label>Nueva contraseña (mínimo 8 caracteres)</label><input id="new-password" type="password" minlength="8" required></div><button class="btn primary">Actualizar contraseña</button></form></div></section>
+<section id="profile-view" class="hidden"><div class="panel profile-shell"><div class="profile-banner"><div class="profile-head"><div class="profile-mark" id="profile-mark">SA</div><div><p class="profile-kicker">Tu espacio creativo</p><h2 id="profile-banner-name">Mi perfil</h2><p>Administra tu identidad de lector y autor en SAKUBA.</p></div></div></div><div class="profile-body"><div id="profile-msg"></div><div class="profile-stats"><div class="profile-stat"><strong id="profile-novel-count">0</strong><span>Obras publicadas</span></div><div class="profile-stat"><strong id="profile-follow-count">0</strong><span>Autores seguidos</span></div><div class="profile-stat"><strong id="profile-favorite-count">0</strong><span>Favoritos guardados</span></div></div><div class="profile-tools"><button class="btn primary" onclick="openAuthor(user.id)">Ver mi perfil público</button><button class="btn" onclick="showReset()">Cambiar contraseña</button></div><div class="profile-columns"><div class="profile-card"><h3>Identidad pública</h3><p class="meta">Así te encontrarán los lectores en tus comentarios y publicaciones.</p><form id="profile-form"><div class="field"><label>Nombre público o seudónimo</label><input id="profile-name" maxlength="60" required></div><div class="field"><label>Tu presentación</label><textarea id="profile-bio" maxlength="500" placeholder="Cuéntales a los lectores qué escribes, qué te inspira y qué historias encontrarán aquí."></textarea><small>Máximo 500 caracteres.</small></div><button class="btn primary">Guardar cambios</button></form></div><div class="profile-card"><h3>Seguridad de la cuenta</h3><p class="meta">Tu correo se utiliza para iniciar sesión y gestionar tu cuenta. No aparece públicamente en tu perfil de autor.</p><div class="profile-email-box"><strong>Correo de la cuenta</strong><p id="profile-email" style="margin:5px 0 0"></p></div><div class="section-title">Autores que sigues</div><div id="following-list"></div></div></div><div class="profile-card" style="margin-top:18px"><div class="author-works-heading"><h3 style="margin:0">Tu biblioteca personal</h3><span class="meta">Historias que guardaste para volver a ellas</span></div><div id="favorite-list"></div></div></div></div></section>
+<section id="editor-view" class="hidden"><div class="panel"><h2 id="editor-heading">Publicar novela</h2><div id="editor-msg"></div><form id="novel-form"><input id="novel-id" type="hidden"><div class="form-grid"><div class="field"><label>Título *</label><input id="novel-title" maxlength="180" required></div><div class="field"><label>Estado</label><select id="novel-status"><option>En emisión</option><option>Finalizada</option><option>En pausa</option></select></div><div class="field full"><label>Sinopsis *</label><textarea id="novel-synopsis" maxlength="5000" required></textarea></div><div class="field full"><label>Géneros, separados por comas</label><input id="novel-genres" maxlength="300" placeholder="Fantasía, Romance, Misterio"></div></div><button class="btn primary">Guardar novela</button> <button type="button" class="btn" onclick="resetNovelForm()">Limpiar</button></form>
+<div id="chapter-editor" class="hidden"><div class="section-title">Añadir o editar capítulo</div><form id="chapter-form"><input id="chapter-id" type="hidden"><div class="field"><label>Título del capítulo *</label><input id="chapter-title" maxlength="180" required></div><div class="field"><label>Contenido (máximo 50,000 caracteres) *</label><textarea id="chapter-content" maxlength="50000" required style="min-height:280px"></textarea><small id="chapter-count">0 / 50,000 caracteres</small></div><button class="btn primary">Guardar capítulo</button> <button type="button" class="btn" onclick="resetChapterForm()">Nuevo capítulo</button></form><div class="section-title">Orden de capítulos</div><div id="author-chapters"></div><div class="actions"><button class="btn primary" id="publish-btn" onclick="togglePublish()">Publicar obra</button><button class="btn" onclick="showMyNovels()">Volver a mis obras</button></div></div></div></section>
+<section id="detail-view" class="hidden"><button class="btn" onclick="home()">← Volver al catálogo</button><div class="panel" style="margin-top:12px"><h1 id="detail-title"></h1><div id="detail-meta" class="meta"></div><div id="detail-overview"><div class="detail-stat"><strong id="detail-chapter-count">0</strong><span>Capítulos</span></div><div class="detail-stat"><strong id="detail-status-value">En emisión</strong><span>Estado</span></div><div class="detail-stat"><strong id="detail-genre-count">0</strong><span>Géneros</span></div></div><div id="detail-genres"></div><h2 class="synopsis-heading">Sinopsis</h2><p id="detail-synopsis" class="synopsis"></p><div class="actions" id="detail-actions"></div><div id="vote-area"></div><div class="section-title">Índice de capítulos</div><div id="detail-chapters"></div><div class="section-title">Comentarios</div><div id="comments-area"></div><div id="comment-form-wrap" class="hidden"><form id="comment-form"><div class="field"><label>Escribe un comentario (máximo 2,000 caracteres)</label><textarea id="comment-text" maxlength="2000" required></textarea></div><button class="btn primary">Publicar comentario</button></form></div></div></section>
+<section id="reader-view" class="hidden"><div class="actions" style="justify-content:space-between"><button class="btn" onclick="backToDetail()">← Volver a la novela</button><div><button class="btn" onclick="changeFont(-2)">A−</button> <button class="btn" onclick="changeFont(2)">A+</button><button class="btn" onclick="saveProgress()">Guardar marcador</button></div></div><article class="reader"><div id="reader-novel" class="meta"></div><h1 id="reader-title"></h1><p id="reader-published" class="meta" style="text-align:center;margin-top:-10px"></p><hr class="separator"><div id="reader-body" class="reader-body"></div></article><div class="actions" style="justify-content:space-between"><button class="btn" id="prev-btn" onclick="moveChapter(-1)">← Anterior</button><button class="btn primary" id="next-btn" onclick="moveChapter(1)">Siguiente →</button></div></section>
+<section id="my-view" class="hidden"><h2>Mis obras</h2><p class="meta">Gestiona borradores, publicaciones y capítulos.</p><div id="my-novels" class="grid"></div></section>
+<section id="author-view" class="hidden"><button class="btn" onclick="home()">← Volver al catálogo</button><div class="panel author-shell" style="margin-top:14px"><div class="author-banner"><div class="author-head"><div class="author-mark" id="author-mark">SA</div><div><p class="author-kicker">Perfil de autor</p><h2 id="author-title">Autor</h2><p>Conoce su universo creativo y explora sus publicaciones.</p></div></div></div><div class="author-body"><p id="author-bio" class="author-intro"></p><div class="author-stats"><div class="author-stat"><strong id="author-novel-count">0</strong><span>Obras publicadas</span></div><div class="author-stat"><strong id="author-follower-count">0</strong><span>Seguidores</span></div><div class="author-stat"><strong id="author-chapter-count">0</strong><span>Capítulos publicados</span></div></div><div id="author-follow" class="profile-tools"></div><div class="author-works-heading"><h3 class="section-title">Obras de este autor</h3><span class="meta">Historias disponibles para leer</span></div><div id="author-novels" class="grid"></div></div></div></section>
+<section id="legal-view" class="hidden"><div class="panel legal-shell"><div class="legal-hero"><div class="legal-eyebrow">Información institucional</div><h2>Términos, privacidad y confianza</h2><p>Las reglas de convivencia y el tratamiento de datos de SAKUBA, una plataforma para descubrir, leer y publicar historias por capítulos.</p></div><div class="legal-content"><div class="legal-contact"><div class="legal-contact-card"><strong>Empresa responsable de la plataforma</strong><span>Hoshikari Corp.</span></div><div class="legal-contact-card"><strong>Contacto oficial</strong><a href="mailto:hoshikari.editorial@outlook.com">hoshikari.editorial@outlook.com</a></div></div><div class="legal-section"><h3>1. Términos de uso</h3><p>SAKUBA permite crear una cuenta, publicar novelas y capítulos, leer obras, seguir autores, guardar favoritos, valorar novelas y participar en comentarios. Al utilizar la plataforma, aceptas estas condiciones y te comprometes a respetar a otros usuarios.</p><p>Debes proporcionar información de cuenta bajo tu control y proteger tus credenciales. Eres responsable de la actividad realizada desde tu cuenta y debes avisar al equipo si sospechas un acceso no autorizado.</p></div><div class="legal-section"><h3>2. Autoría y contenido publicado</h3><p>Los autores conservan los derechos que les correspondan sobre sus obras. Al publicar contenido, autorizan a SAKUBA a alojarlo, reproducirlo técnicamente y mostrarlo dentro de la plataforma para prestar el servicio, de acuerdo con la visibilidad elegida y mientras el contenido permanezca publicado.</p><p>Solo publiques textos sobre los que tengas derechos o autorización. No se permite subir contenido que infrinja derechos de autor, suplantar a otras personas, divulgar datos privados sin autorización, acosar, amenazar, enviar spam ni publicar contenido ilegal.</p></div><div class="legal-section"><h3>3. Comunidad, reportes y moderación</h3><p>Los comentarios, votos y favoritos deben utilizarse de forma auténtica. No se permite manipular rankings, automatizar interacciones abusivas ni crear cuentas para evadir medidas de moderación. Puedes reportar obras o comentarios que consideres problemáticos.</p><p>Hoshikari Corp. podrá revisar los reportes y adoptar medidas proporcionadas, como retirar u ocultar contenido o restringir cuentas cuando sea necesario. Para consultas sobre moderación, escribe al contacto oficial.</p></div><div class="legal-section"><h3>4. Política de privacidad</h3><p>Para operar SAKUBA se pueden tratar datos de cuenta como el correo electrónico y el identificador de usuario; datos públicos de perfil como el seudónimo y la biografía; y actividad de la plataforma como obras, capítulos, comentarios, valoraciones, favoritos, autores seguidos y progreso de lectura.</p><p>Estos datos se utilizan para mantener la cuenta, prestar las funciones de lectura y publicación, mostrar el contenido que decidas hacer público, guardar preferencias, prevenir abusos y atender solicitudes o reportes.</p><p>El seudónimo, la biografía, las obras publicadas y los comentarios visibles pueden ser consultados por otros usuarios. El correo electrónico de acceso no se muestra en el perfil público. Evita incluir información sensible o datos personales de terceros en textos públicos.</p></div><div class="legal-section"><h3>5. Almacenamiento, conservación y solicitudes</h3><p>SAKUBA utiliza servicios tecnológicos de terceros para autenticación y almacenamiento de datos, incluido Supabase según la configuración técnica de la plataforma. El tratamiento y la ubicación de los datos pueden depender de la configuración del proyecto y de las políticas del proveedor.</p><p>Los datos se conservan durante el tiempo necesario para prestar el servicio, mantener la seguridad, resolver incidencias y cumplir obligaciones aplicables. Para solicitar acceso, corrección o eliminación de datos, o plantear una cuestión de privacidad, contacta a Hoshikari Corp. en el correo indicado arriba. Algunas solicitudes pueden requerir verificar la titularidad de la cuenta.</p></div><div class="legal-section"><h3>6. Cambios y contacto</h3><p>Estas condiciones pueden actualizarse para reflejar cambios en la plataforma o en sus procesos. Para asuntos de privacidad, moderación, derechos de autor o uso de SAKUBA, escribe a <a href="mailto:hoshikari.editorial@outlook.com">hoshikari.editorial@outlook.com</a>.</p></div><div class="legal-note"><strong>Hoshikari Corp:</strong> テクノロジーとエンターテインメントを融合し、新世代 de グローバルコンテンツを展開するメディアグループ。ラノベ出版「Hoshikari文庫」や創作プラットフォーム「SAKUBA」を運営し、中南米と世界を結ぶ文化の架け橋となります。.</div></div></div></section>
+</main><div id="toast" class="hidden" role="status" style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:30;background:#17212b;color:white;padding:12px 16px;border-radius:10px;max-width:90vw"></div><footer><div class="footer-inner"><div><strong>SAKUBA</strong><div>Autopublicación y lectura de novelas en español</div><small style="color:#a9bfce">Una plataforma de Hoshikari Corp.</small></div><div><a href="javascript:void(0)" onclick="showTerms()">Términos y privacidad</a><div><a href="mailto:hoshikari.editorial@outlook.com">hoshikari.editorial@outlook.com</a></div></div></div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://qtfdsjplwkulnkvuqiza.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_P2yAK8mLMervKTAICWAbiQ_DB6bgHNT";
+const MAX_CHAPTER=50000,MAX_COMMENT=2000;
+let db=null,user=null,profile=null,ranking="popular",activeNovel=null,chapters=[],chapterIndex=0,fontSize=18,authMode="signup",resetMode=false,returnAfterAuth="home-view";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeText=s=>String(s??"");
+function configured(){return SUPABASE_URL.startsWith("https://")&&!SUPABASE_URL.includes("PEGA_AQUI")&&SUPABASE_ANON_KEY.length>25&&!SUPABASE_ANON_KEY.includes("PEGA_AQUI")}
+function msg(id,text,type="notice"){const e=$(id);e.className=type;e.textContent=text;e.classList.remove("hidden")}
+function toast(text){const e=$("toast");e.textContent=text;e.classList.remove("hidden");clearTimeout(window._toast);window._toast=setTimeout(()=>e.classList.add("hidden"),3000)}
+function view(id){["home-view","auth-view","reset-view","profile-view","editor-view","detail-view","reader-view","my-view","author-view","legal-view"].forEach(x=>$(x).classList.toggle("hidden",x!==id));window.scrollTo({top:0,behavior:"smooth"})}
+function home(){if(location.hash)history.pushState({sakubaRoute:true},"",location.pathname+location.search);view("home-view");loadCatalog()}
+function showTerms(){view("legal-view")}
+function showAuth(mode){authMode=mode;returnAfterAuth="home-view";view("auth-view");$("auth-title").textContent=mode==="signup"?"Crear cuenta":"Iniciar sesión";$("auth-submit").textContent=mode==="signup"?"Crear cuenta":"Iniciar sesión";$("auth-name-wrap").classList.toggle("hidden",mode!=="signup");$("auth-switch").textContent=mode==="signup"?"Ya tengo cuenta":"Crear una cuenta";$("auth-msg").className="hidden";$("auth-msg").textContent=""}
+function switchAuth(){showAuth(authMode==="signup"?"login":"signup")}
+function showReset(){view("reset-view")}
+function routeToNovel(id){const url=new URL(location.href);url.hash="novel="+encodeURIComponent(id);history.pushState({sakubaRoute:true},"",url);}
+function routeToChapter(novelId,chapterId){const url=new URL(location.href);url.hash="novel="+encodeURIComponent(novelId)+"&chapter="+encodeURIComponent(chapterId);history.pushState({sakubaRoute:true},"",url);}
+function shareChapterLink(novelId,chapterId){const url=new URL(location.href);url.hash="novel="+encodeURIComponent(novelId)+"&chapter="+encodeURIComponent(chapterId);if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url.href).then(()=>toast("Enlace del capítulo copiado")).catch(()=>prompt("Copia el enlace del capítulo:",url.href))}else prompt("Copia el enlace del capítulo:",url.href)}
+async function openRouteFromUrl(){const raw=location.hash.replace(/^#/,"");if(!raw)return false;const params=new URLSearchParams(raw);const novelId=params.get("novel"),chapterId=params.get("chapter");if(novelId){await openNovel(novelId,{updateUrl:false,chapterId:chapterId||null});return true}return false}
+window.addEventListener("hashchange",()=>{if(location.hash)openRouteFromUrl()});
+window.addEventListener("popstate",()=>{if(location.hash)openRouteFromUrl();else home()});
+async function init(){if(!configured()){ $("catalog").innerHTML='<div class="empty" style="grid-column:1/-1">Añade la URL y la clave pública de Supabase en el archivo index.html para activar la plataforma.</div>';return}db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);const {data:{session}}=await db.auth.getSession();await setSession(session?.user||null);db.auth.onAuthStateChange((_e,s)=>setTimeout(()=>setSession(s?.user||null),0));if(location.hash.includes("type=recovery")){view("reset-view")}await loadCatalog();if(location.hash)await openRouteFromUrl()}
+async function setSession(u){user=u;profile=null;if(u&&db){const {data}=await db.from("profiles").select("display_name,bio").eq("id",u.id).maybeSingle();profile=data||null}$("session-label").textContent=u?(profile?.display_name||u.email):"No has iniciado sesión";$("login-btn").classList.toggle("hidden",!!u);$("signup-btn").classList.toggle("hidden",!!u);$("profile-btn").classList.toggle("hidden",!u);$("logout-btn").classList.toggle("hidden",!u)}
+$("auth-form").addEventListener("submit",async e=>{e.preventDefault();if(!db)return;const email=$("auth-email").value.trim(),password=$("auth-password").value;let r;if(authMode==="signup"){r=await db.auth.signUp({email,password,options:{data:{display_name:$("auth-name").value.trim()||email.split("@")[0]},emailRedirectTo:location.href.split("#")[0]}})}else r=await db.auth.signInWithPassword({email,password});if(r.error){msg("auth-msg",r.error.message,"notice error");return}if(authMode==="signup"&&!r.data.session){msg("auth-msg","Cuenta creada. Revisa tu correo para confirmar la dirección antes de iniciar sesión.","notice success")}else{await setSession(r.data.user);toast("Sesión iniciada");home()}});
+$("reset-form").addEventListener("submit",async e=>{e.preventDefault();if(!db)return;const {error}=await db.auth.resetPasswordForEmail($("reset-email").value.trim(),{redirectTo:location.href.split("#")[0]});if(error)msg("reset-msg",error.message,"notice error");else msg("reset-msg","Si la cuenta existe, recibirás un correo con el enlace de recuperación.","notice success")});
+$("new-password-form").addEventListener("submit",async e=>{e.preventDefault();if(!db)return;const {error}=await db.auth.updateUser({password:$("new-password").value});if(error)msg("reset-msg",error.message,"notice error");else{msg("reset-msg","Contraseña actualizada correctamente.","notice success");history.replaceState(null,"",location.pathname+location.search);home()}});
+async function logout(){await db?.auth.signOut();await setSession(null);home()}
+function statusBadge(status){const s=status||"En emisión";const cls=s==="Finalizada"?"status-finalizada":s==="En pausa"?"status-pausa":"status-emision";return `<span class="status-badge ${cls}">${esc(s)}</span>`}
+function publicationBadge(published){return `<span class="publication-badge ${published?"publication-published":"publication-draft"}">${published?"Publicada":"Borrador"}</span>`}
+async function loadCatalog(query=""){if(!db)return;let q=db.from("novels").select("id,title,synopsis,genres,status,author_id,created_at,profiles(display_name)").eq("is_published",true);if(query)q=q.ilike("title",`%${query.replace(/[%_,]/g," ")}%`);if(ranking==="recent")q=q.order("created_at",{ascending:false});else q=q.order("created_at",{ascending:false});const {data,error}=await q.limit(100);if(error){$("catalog").innerHTML='<div class="empty">No se pudo cargar el catálogo. Revisa el SQL y las políticas RLS.</div>';return}if(!data?.length){$("catalog").innerHTML='<div class="empty" style="grid-column:1/-1">Aún no hay novelas publicadas. ¡Publica la primera historia!</div>';return}
+const ids=data.map(n=>n.id);const [votesRes,favsRes,chapRes]=await Promise.all([db.from("novel_votes").select("novel_id,rating").in("novel_id",ids),db.from("favorites").select("novel_id").in("novel_id",ids),db.from("chapters").select("novel_id").in("novel_id",ids)]);const votes=votesRes.data||[],favs=favsRes.data||[],chaps=chapRes.data||[];const rows=data.map(n=>{const vs=votes.filter(v=>v.novel_id===n.id),avg=vs.length?vs.reduce((s,v)=>s+v.rating,0)/vs.length:0;return {...n,avg,count:vs.length,favCount:favs.filter(f=>f.novel_id===n.id).length,chapterCount:chaps.filter(c=>c.novel_id===n.id).length}});if(ranking==="popular")rows.sort((a,b)=>b.avg-a.avg||b.count-a.count||b.created_at.localeCompare(a.created_at));if(ranking==="favorites")rows.sort((a,b)=>b.favCount-a.favCount||b.created_at.localeCompare(a.created_at));$("catalog").innerHTML=rows.map((n,i)=>`<article class="card"><div class="catalog-art"></div><div class="catalog-content"><div class="rank">${ranking==="popular"?"#"+(i+1)+" · RANKING":""}</div><h3>${esc(n.title)}</h3><div class="meta">Por <a href="#" onclick="event.stopPropagation();openAuthor('${n.author_id}');return false">${esc(n.profiles?.display_name||"Autor")}</a> · ${statusBadge(n.status)}</div><div class="stats"><span>★ ${n.avg?n.avg.toFixed(1):"Sin votos"} (${n.count})</span><span>♥ ${n.favCount} favoritos</span><span>▤ ${n.chapterCount} capítulos</span></div><p class="synopsis">${esc((n.synopsis||"Sin sinopsis disponible.").length>125?(n.synopsis||"").slice(0,125).trim()+"…":n.synopsis||"Sin sinopsis disponible.")}</p><div class="catalog-genres">${(n.genres||[]).slice(0,3).map(g=>`<span class="pill">${esc(g)}</span>`).join(" ")}</div><div class="actions catalog-actions"><button class="btn primary" onclick="openNovel('${n.id}')">Ver novela</button></div></div></article>`).join("")}
+function setRanking(r){ranking=r;["popular","recent","favorites"].forEach(x=>$("rank-"+x).classList.toggle("active",x===r));loadCatalog($("search").value.trim())}
+function searchCatalog(){loadCatalog($("search").value.trim())}
+function needLogin(){if(!user){showAuth("login");msg("auth-msg","Inicia sesión para realizar esta acción.");return false}return true}
+function showNovelEditor(){if(!needLogin())return;resetNovelForm();view("editor-view")}
+function resetNovelForm(){ $("novel-form").reset();$("novel-id").value="";$("editor-heading").textContent="Publicar novela";$("chapter-editor").classList.add("hidden");$("editor-msg").className="hidden"}
+$("novel-form").addEventListener("submit",async e=>{e.preventDefault();if(!needLogin())return;const id=$("novel-id").value;const payload={title:$("novel-title").value.trim(),synopsis:$("novel-synopsis").value.trim(),genres:$("novel-genres").value.split(",").map(x=>x.trim()).filter(Boolean).slice(0,10),status:$("novel-status").value,author_id:user.id};let r=id?await db.from("novels").update(payload).eq("id",id).select("id").single():await db.from("novels").insert(payload).select("id").single();if(r.error){msg("editor-msg","No se pudo guardar: "+r.error.message,"notice error");return}$("novel-id").value=r.data.id;$("editor-heading").textContent="Editar novela";$("chapter-editor").classList.remove("hidden");await loadAuthorChapters(r.data.id);msg("editor-msg","Novela guardada. Añade capítulos y publica cuando esté lista.","notice success")});
+function resetChapterForm(){$("chapter-form").reset();$("chapter-id").value="";$("chapter-count").textContent="0 / 50,000 caracteres"}
+$("chapter-content").addEventListener("input",()=>$("chapter-count").textContent=$("chapter-content").value.length+" / 50,000 caracteres");
+$("chapter-form").addEventListener("submit",async e=>{e.preventDefault();if(!needLogin())return;const novelId=$("novel-id").value,chapterId=$("chapter-id").value,content=$("chapter-content").value;if(content.length>MAX_CHAPTER){toast("El capítulo supera el límite");return}let r;if(chapterId){r=await db.from("chapters").update({title:$("chapter-title").value.trim(),content}).eq("id",chapterId)}else{const {data:last}=await db.from("chapters").select("chapter_number").eq("novel_id",novelId).order("chapter_number",{ascending:false}).limit(1);r=await db.from("chapters").insert({novel_id:novelId,author_id:user.id,chapter_number:(last?.[0]?.chapter_number||0)+1,title:$("chapter-title").value.trim(),content})}if(r.error){msg("editor-msg","Error al guardar capítulo: "+r.error.message,"notice error");return}resetChapterForm();await loadAuthorChapters(novelId);toast("Capítulo guardado")});
+async function loadAuthorChapters(id){const {data,error}=await db.from("chapters").select("id,chapter_number,title,created_at").eq("novel_id",id).order("chapter_number");if(error){$("author-chapters").textContent="Error cargando capítulos";return}const {data:n}=await db.from("novels").select("is_published").eq("id",id).single();$("publish-btn").textContent=n?.is_published?"Retirar publicación":"Publicar obra";$("author-chapters").innerHTML=data?.length?data.map((c,i)=>`<div class="chapter-row"><div><b>${c.chapter_number}. ${esc(c.title)}</b><div class="meta">Capítulo ${i+1} de ${data.length}</div></div><div class="actions"><button class="btn" onclick="editChapter('${c.id}')">Editar</button><button class="btn" onclick="moveChapterOrder('${c.id}',-1)" ${i===0?"disabled":""}>↑</button><button class="btn" onclick="moveChapterOrder('${c.id}',1)" ${i===data.length-1?"disabled":""}>↓</button><button class="btn danger" onclick="deleteChapter('${c.id}','${id}')">Eliminar</button></div></div>`).join(""):'<div class="empty">Aún no hay capítulos.</div>'}
+async function editChapter(id){const {data,error}=await db.from("chapters").select("id,title,content").eq("id",id).single();if(error)return toast("No se pudo abrir el capítulo");$("chapter-id").value=data.id;$("chapter-title").value=data.title;$("chapter-content").value=data.content;$("chapter-count").textContent=data.content.length+" / 50,000 caracteres";window.scrollTo({top:$("chapter-form").getBoundingClientRect().top+window.scrollY-30,behavior:"smooth"})}
+async function moveChapterOrder(id,delta){const novelId=$("novel-id").value;const {data,error}=await db.from("chapters").select("id,chapter_number").eq("novel_id",novelId).order("chapter_number");if(error)return toast("No se pudo ordenar");const i=data.findIndex(c=>c.id===id),j=i+delta;if(j<0||j>=data.length)return;const a=data[i],b=data[j];const temp=-(Math.max(...data.map(c=>c.chapter_number))+1);let r=await db.from("chapters").update({chapter_number:temp}).eq("id",a.id);if(!r.error)r=await db.from("chapters").update({chapter_number:a.chapter_number}).eq("id",b.id);if(!r.error)r=await db.from("chapters").update({chapter_number:b.chapter_number}).eq("id",a.id);if(r.error){toast("No se pudo cambiar el orden");return}await loadAuthorChapters(novelId)}
+async function deleteChapter(id,nid){if(!confirm("¿Eliminar este capítulo?"))return;const {error}=await db.from("chapters").delete().eq("id",id);if(error)toast("No se pudo eliminar");else{await loadAuthorChapters(nid);toast("Capítulo eliminado")}}
+async function togglePublish(){const id=$("novel-id").value;const {data:chs}=await db.from("chapters").select("id").eq("novel_id",id).limit(1);const {data:n}=await db.from("novels").select("is_published").eq("id",id).single();if(!n?.is_published&&!chs?.length)return msg("editor-msg","Añade al menos un capítulo antes de publicar.","notice error");const {error}=await db.from("novels").update({is_published:!n.is_published}).eq("id",id);if(error)return msg("editor-msg",error.message,"notice error");await loadAuthorChapters(id);toast(n.is_published?"Obra retirada del catálogo":"Obra publicada");loadCatalog()}
+async function showMyNovels(){if(!needLogin())return;view("my-view");const {data,error}=await db.from("novels").select("id,title,synopsis,status,is_published,created_at").eq("author_id",user.id).order("created_at",{ascending:false});$("my-novels").innerHTML=error?'<div class="empty">No se pudieron cargar tus obras.</div>':!data?.length?'<div class="empty">Aún no tienes novelas. <button class="btn primary" onclick="showNovelEditor()">Crear novela</button></div>':data.map(n=>`<article class="card"><h3>${esc(n.title)}</h3><div class="meta">${publicationBadge(n.is_published)} ${statusBadge(n.status)}</div><p class="synopsis">${esc(n.synopsis)}</p><div class="actions"><button class="btn primary" onclick="editNovel('${n.id}')">Editar / capítulos</button>${n.is_published?`<button class="btn" onclick="openNovel('${n.id}')">Ver</button>`:""}</div></article>`).join("")}
+async function editNovel(id){const {data:n,error}=await db.from("novels").select("*").eq("id",id).single();if(error)return toast("No se pudo abrir");$("novel-id").value=n.id;$("novel-title").value=n.title;$("novel-synopsis").value=n.synopsis;$("novel-genres").value=(n.genres||[]).join(", ");$("novel-status").value=n.status;$("editor-heading").textContent="Editar novela";$("chapter-editor").classList.remove("hidden");view("editor-view");await loadAuthorChapters(id)}
+async function openNovel(id,options={}){const {data:n,error}=await db.from("novels").select("id,title,synopsis,genres,status,author_id,profiles(display_name)").eq("id",id).eq("is_published",true).single();if(error||!n)return toast("No se encontró la novela");const {data:c}=await db.from("chapters").select("id,chapter_number,title,content,created_at,published_at").eq("novel_id",id).order("chapter_number");activeNovel=n;chapters=c||[];if(options.updateUrl!==false)routeToNovel(id);$("detail-title").textContent=n.title;$("detail-meta").innerHTML=`Por <span class="detail-author">${esc(n.profiles?.display_name||"Autor")}</span> <span aria-hidden="true">·</span> Ficha de novela`;$("detail-chapter-count").textContent=chapters.length;$("detail-status-value").textContent=n.status||"En emisión";$("detail-genre-count").textContent=(n.genres||[]).length;$("detail-genres").innerHTML=(n.genres||[]).map(g=>`<span class="pill">${esc(g)}</span>`).join("");$("detail-synopsis").textContent=n.synopsis||"Esta novela todavía no tiene una sinopsis.";$("detail-actions").innerHTML=`<button class="btn" onclick="openAuthor('${n.author_id}')">Ver autor</button><button class="btn" onclick="followAuthor('${n.author_id}')">Seguir autor</button><button class="btn" onclick="toggleFavorite('${n.id}')">♥ Añadir/quitar favorito</button><button class="btn danger" onclick="reportContent('novel','${n.id}')">Reportar obra</button>`;$("detail-chapters").innerHTML=chapters.length?chapters.map((c,i)=>`<div class="chapter-row"><div class="chapter-name"><b>Capítulo ${c.chapter_number}.</b> ${esc(c.title)}<span class="chapter-date">Publicado el ${(c.published_at||c.created_at)?new Date(c.published_at||c.created_at).toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"}):"Fecha no disponible"}</span></div><div class="actions"><button class="btn" onclick="shareChapterLink('${n.id}','${c.id}')">Compartir enlace</button><button class="btn primary" onclick="readChapter(${i})">Leer capítulo</button></div></div>`).join(""):'<div class="empty">Aún no hay capítulos.</div>';await renderVotes(n.id);await renderComments(n.id);$("comment-form-wrap").classList.toggle("hidden",!user);view("detail-view");if(user)await restoreProgress(n.id);if(options.chapterId){const idx=chapters.findIndex(x=>x.id===options.chapterId);if(idx>=0)readChapter(idx,{updateUrl:false})}}
+async function renderVotes(id){const {data}=await db.from("novel_votes").select("rating").eq("novel_id",id);const vs=data||[],avg=vs.length?vs.reduce((s,v)=>s+v.rating,0)/vs.length:0;let own=null;if(user){const r=await db.from("novel_votes").select("rating").eq("novel_id",id).eq("user_id",user.id).maybeSingle();own=r.data?.rating||null}let html=`<div class="section-title">Valoración de lectores</div><div class="stats">Promedio: <b>${avg?avg.toFixed(2):"Sin votos"}</b> · ${vs.length} voto(s)</div><div class="actions">`;for(let i=1;i<=5;i++)html+=`<button class="btn ${own===i?"active":""}" onclick="voteNovel('${id}',${i})">${i} ★</button>`;html+='</div><p class="meta">Una valoración por cuenta. El ranking se calcula con el promedio y el número de votos.</p>';$("vote-area").innerHTML=html}
+async function voteNovel(id,rating){if(!needLogin())return;const {error}=await db.from("novel_votes").upsert({novel_id:id,user_id:user.id,rating},{onConflict:"novel_id,user_id"});if(error){toast("No se pudo guardar el voto");return}await renderVotes(id);await loadCatalog();toast("Voto registrado")}
+async function toggleFavorite(id){if(!needLogin())return;const {data}=await db.from("favorites").select("novel_id").eq("novel_id",id).eq("user_id",user.id).maybeSingle();let r=data?await db.from("favorites").delete().eq("novel_id",id).eq("user_id",user.id):await db.from("favorites").insert({novel_id:id,user_id:user.id});if(r.error)return toast("No se pudo actualizar favorito");await loadCatalog();toast(data?"Quitado de favoritos":"Añadido a favoritos")}
+async function followAuthor(id){if(!needLogin())return;if(id===user.id)return toast("No puedes seguir tu propia cuenta");const {data}=await db.from("author_follows").select("author_id").eq("author_id",id).eq("follower_id",user.id).maybeSingle();const r=data?await db.from("author_follows").delete().eq("author_id",id).eq("follower_id",user.id):await db.from("author_follows").insert({author_id:id,follower_id:user.id});if(r.error)return toast("No se pudo actualizar seguimiento");toast(data?"Dejaste de seguir al autor":"Ahora sigues al autor")}
+async function renderComments(id){const {data,error}=await db.from("comments").select("id,body,created_at,user_id,profiles(display_name)").eq("novel_id",id).eq("is_hidden",false).order("created_at",{ascending:false}).limit(100);if(error){$("comments-area").textContent="No se pudieron cargar comentarios.";return}$("comments-area").innerHTML=data?.length?data.map(c=>`<div class="card" style="margin:9px 0"><b>${esc(c.profiles?.display_name||"Lector")}</b><p style="white-space:pre-wrap">${esc(c.body)}</p><div class="actions"><span class="meta">${new Date(c.created_at).toLocaleString()}</span><button class="btn danger" onclick="reportContent('comment','${c.id}')">Reportar</button>${user&&c.user_id===user.id?`<button class="btn danger" onclick="deleteComment('${c.id}')">Eliminar</button>`:""}</div></div>`).join(""):'<div class="empty">Todavía no hay comentarios.</div>'}
+$("comment-form").addEventListener("submit",async e=>{e.preventDefault();if(!needLogin())return;const body=$("comment-text").value.trim();if(!body||body.length>MAX_COMMENT)return toast("Comentario vacío o demasiado largo");const {error}=await db.from("comments").insert({novel_id:activeNovel.id,user_id:user.id,body});if(error)return toast(error.message.includes("spam")?"Espera antes de publicar otro comentario.":"No se pudo publicar el comentario");$("comment-text").value="";await renderComments(activeNovel.id);toast("Comentario publicado")});
+async function deleteComment(id){if(!confirm("¿Eliminar tu comentario?"))return;const {error}=await db.from("comments").delete().eq("id",id);if(error)toast("No se pudo eliminar");else{await renderComments(activeNovel.id);toast("Comentario eliminado")}}
+async function reportContent(kind,id){if(!needLogin())return;const reason=prompt("Motivo del reporte (spam, acoso, derechos de autor, contenido ilícito u otro):");if(!reason||!reason.trim())return;const details=prompt("Detalles adicionales (opcional):")||"";const {error}=await db.from("content_reports").insert({reporter_id:user.id,content_type:kind,content_id:id,reason:reason.trim().slice(0,100),details:details.trim().slice(0,1000)});if(error)toast("No se pudo enviar el reporte");else toast("Reporte enviado al equipo de moderación")}
+function readChapter(i,options={}){chapterIndex=i;const c=chapters[i];if(!c)return;$("reader-novel").textContent=activeNovel.title;$("reader-title").textContent=`${c.chapter_number}. ${c.title}`;$("reader-published").textContent=(c.published_at||c.created_at)?"Publicado el "+new Date(c.published_at||c.created_at).toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"}):"Fecha de publicación no disponible";$("reader-body").textContent=c.content;$("reader-body").style.fontSize=fontSize+"px";$("prev-btn").disabled=i===0;$("next-btn").disabled=i===chapters.length-1;view("reader-view");if(options.updateUrl!==false&&activeNovel&&c)routeToChapter(activeNovel.id,c.id);if(user)saveProgress()}
+function moveChapter(delta){const i=chapterIndex+delta;if(i>=0&&i<chapters.length)readChapter(i)}
+function changeFont(d){fontSize=Math.max(14,Math.min(30,fontSize+d));$("reader-body").style.fontSize=fontSize+"px"}
+function backToDetail(){if(activeNovel)routeToNovel(activeNovel.id);view("detail-view")}
+async function saveProgress(){if(!user||!activeNovel||!chapters[chapterIndex])return;const c=chapters[chapterIndex];const {error}=await db.from("reading_progress").upsert({user_id:user.id,novel_id:activeNovel.id,chapter_id:c.id,updated_at:new Date().toISOString()},{onConflict:"user_id,novel_id"});if(!error)toast("Marcador sincronizado")}
+async function restoreProgress(novelId){if(!user)return;const {data}=await db.from("reading_progress").select("chapter_id").eq("user_id",user.id).eq("novel_id",novelId).maybeSingle();if(data){const idx=chapters.findIndex(c=>c.id===data.chapter_id);if(idx>=0){const box=document.createElement("div");box.className="notice";box.textContent="Tienes un marcador guardado. Puedes continuar desde el capítulo "+chapters[idx].chapter_number+".";const b=document.createElement("button");b.className="btn primary";b.textContent="Continuar leyendo";b.onclick=()=>readChapter(idx);box.appendChild(document.createTextNode(" "));box.appendChild(b);$("detail-chapters").prepend(box)}}}
+function initials(name){return String(name||"SA").trim().split(/\s+/).slice(0,2).map(x=>x.charAt(0)).join("").toUpperCase()||"SA"}
+async function openAuthor(id){const {data:p}=await db.from("profiles").select("id,display_name,bio").eq("id",id).single();if(!p)return toast("No se encontró el autor");const {data:n}=await db.from("novels").select("id,title,synopsis,status,genres").eq("author_id",id).eq("is_published",true).order("created_at",{ascending:false});const novels=n||[];let chaptersCount=0;if(novels.length){const {count}=await db.from("chapters").select("id",{count:"exact",head:true}).in("novel_id",novels.map(x=>x.id));chaptersCount=count||0}const {count:followers}=await db.from("author_follows").select("author_id",{count:"exact",head:true}).eq("author_id",id);$("author-title").textContent=p.display_name;$("author-mark").textContent=initials(p.display_name);$("author-bio").textContent=p.bio||"Este autor todavía está preparando su presentación. Mientras tanto, puedes descubrir sus historias publicadas.";$("author-novel-count").textContent=novels.length;$("author-follower-count").textContent=followers||0;$("author-chapter-count").textContent=chaptersCount;$("author-follow").innerHTML=id===user?.id?'<button class="btn" onclick="showProfile()">Editar mi perfil</button>':`<button class="btn primary" onclick="followAuthor('${id}')">Seguir / dejar de seguir</button>`;$("author-novels").innerHTML=novels.length?novels.map(x=>`<article class="card"><h3>${esc(x.title)}</h3><div class="meta">${esc(x.status||"En emisión")} · ${(x.genres||[]).length} géneros</div><p class="synopsis">${esc(x.synopsis)}</p><button class="btn primary" onclick="openNovel('${x.id}')">Explorar novela</button></article>`).join(""):'<div class="empty">Este autor todavía no tiene obras publicadas.</div>';view("author-view")}
+async function showProfile(){if(!needLogin())return;view("profile-view");const {data:p}=await db.from("profiles").select("display_name,bio").eq("id",user.id).single();const name=p?.display_name||"Autor";$("profile-name").value=name;$("profile-bio").value=p?.bio||"";$("profile-banner-name").textContent=name;$("profile-mark").textContent=initials(name);$("profile-email").textContent=user.email||"Correo no disponible";const [f,n,works]=await Promise.all([db.from("author_follows").select("author_id,profiles!author_follows_author_id_fkey(display_name)").eq("follower_id",user.id),db.from("favorites").select("novel_id,novels(title)").eq("user_id",user.id),db.from("novels").select("id",{count:"exact",head:true}).eq("author_id",user.id).eq("is_published",true)]);const follows=f.data||[],favs=n.data||[];$("profile-follow-count").textContent=follows.length;$("profile-favorite-count").textContent=favs.length;$("profile-novel-count").textContent=works.count||0;$("following-list").innerHTML=follows.length?follows.map(x=>`<div class="chapter-row"><span>${esc(x.profiles?.display_name||"Autor")}</span><button class="btn" onclick="openAuthor('${x.author_id}')">Ver perfil</button></div>`).join(""):'<p class="meta">Todavía no sigues autores. Explora el catálogo para encontrar tu próxima lectura.</p>';$("favorite-list").innerHTML=favs.length?favs.map(x=>`<div class="chapter-row"><span>${esc(x.novels?.title||"Novela")}</span><button class="btn" onclick="openNovel('${x.novel_id}')">Abrir historia</button></div>`).join(""):'<div class="empty">Tu biblioteca está lista para llenarse de historias. Guarda una novela en favoritos para encontrarla aquí.</div>'}
+$("profile-form").addEventListener("submit",async e=>{e.preventDefault();if(!needLogin())return;const {error}=await db.from("profiles").update({display_name:$("profile-name").value.trim(),bio:$("profile-bio").value.trim()}).eq("id",user.id);if(error)msg("profile-msg",error.message,"notice error");else{await setSession(user);$("profile-banner-name").textContent=$("profile-name").value.trim();$("profile-mark").textContent=initials($("profile-name").value.trim());msg("profile-msg","Perfil actualizado.","notice success")}})
+window.addEventListener("load",init);
+</script></body></html>
